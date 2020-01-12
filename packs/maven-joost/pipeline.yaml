@@ -1,6 +1,10 @@
 extends:
   import: kubernetes
   file: maven-java11/pipeline.yaml
+agent:
+  label: jenkins-maven-java11
+  image: maven-java11
+  container: maven
 
 pipelines:
   pullRequest:
@@ -8,7 +12,7 @@ pipelines:
       steps:
       - name: sonar-scan-pr
         command: sonar-scanner
-        image: fabiopotame/sonar-scanner-cli # newtmitch/sonar-scanner for JDK 10+?
+        image: newtmitch/sonar-scanner:3.0 # fabiopotame/sonar-scanner-cli:latest for JDK8?
         dir: /workspace/source/
         args:
           - -Dsonar.projectName=jx-qs-spring-boot
@@ -24,7 +28,7 @@ pipelines:
       steps:
       - name: sonar-scan-pr
         command: sonar-scanner
-        image: fabiopotame/sonar-scanner-cli # newtmitch/sonar-scanner for JDK 10+?
+        image: newtmitch/sonar-scanner:3.0 # fabiopotame/sonar-scanner-cli:latest for JDK8?
         dir: /workspace/source/
         args:
           - -Dsonar.projectName=jx-qs-spring-boot
