@@ -1,0 +1,56 @@
+extends:
+  import: kubernetes
+  file: maven-java11/pipeline.yaml
+
+pipelines:
+  pullRequest:
+    build:
+      steps:
+      - name: sonar-scan-pr
+        command: sonar-scanner
+        image: fabiopotame/sonar-scanner-cli # newtmitch/sonar-scanner for JDK 10+?
+        dir: /workspace/source/
+        args:
+          - -Dsonar.projectName=jx-qs-spring-boot
+          - -Dsonar.projectKey=jx-qs-spring-boot
+          - -Dsonar.organization=joostvdg-github
+          - -Dsonar.sources=./src/main/java/
+          - -Dsonar.language=java
+          - -Dsonar.java.binaries=./target/classes
+          - -Dsonar.host.url=https://sonarcloud.io
+          - -Dsonar.login=bebe633ad6599cbf52f7e0b9ee1bc2bbd3cd9c80
+  release:
+    build:
+      steps:
+      - name: sonar-scan-pr
+        command: sonar-scanner
+        image: fabiopotame/sonar-scanner-cli # newtmitch/sonar-scanner for JDK 10+?
+        dir: /workspace/source/
+        args:
+          - -Dsonar.projectName=jx-qs-spring-boot
+          - -Dsonar.projectKey=jx-qs-spring-boot
+          - -Dsonar.organization=joostvdg-github
+          - -Dsonar.sources=./src/main/java/
+          - -Dsonar.language=java
+          - -Dsonar.java.binaries=./target/classes
+          - -Dsonar.host.url=https://sonarcloud.io
+          - -Dsonar.login=bebe633ad6599cbf52f7e0b9ee1bc2bbd3cd9c80
+  # overrides:
+  #   - name: mvn-deploy
+  #     pipeline: release
+  #     stage: build
+  #     step:
+  #       name: sonar
+  #       command: sonar-scanner
+  #       image: fabiopotame/sonar-scanner-cli # newtmitch/sonar-scanner for JDK 10+?
+  #       dir: /workspace/source/
+  #       args:
+  #         - -Dsonar.projectName=jx-qs-spring-boot
+  #         - -Dsonar.projectKey=jx-qs-spring-boot
+  #         - -Dsonar.organization=joostvdg-github
+  #         - -Dsonar.sources=./src/main/java/
+  #         - -Dsonar.language=java
+  #         - -Dsonar.java.binaries=./target/classes
+  #         - -Dsonar.host.url=https://sonarcloud.io
+  #         - -Dsonar.login=bebe633ad6599cbf52f7e0b9ee1bc2bbd3cd9c80
+  #     type: after

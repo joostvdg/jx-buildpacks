@@ -1,0 +1,7 @@
+modules:
+- name: classic
+  gitUrl: https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git
+  gitRef: master
+- name: kubernetes
+  gitUrl: https://github.com/jenkins-x-buildpacks/jenkins-x-kubernetes.git
+  gitRef: master
